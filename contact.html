@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:1.6}
+    nav a{margin-right:1rem}
+    form{display:grid;gap:.8rem;margin-top:1rem}
+    input,textarea,button{padding:.6rem;border:1px solid #ccc;border-radius:8px}
+    button{cursor:pointer}
+    #status{margin-top:.5rem}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <h1>Contact</h1>
+  <p>Formulaire de démonstration pour l’ECF.</p>
+
+  <form id="contact-form" novalidate>
+    <label>Nom<br><input type="text" name="nom" required></label>
+    <label>Email<br><input type="email" name="email" required></label>
+    <label>Message<br><textarea name="message" rows="6" required minlength="10"></textarea></label>
+    <button type="submit">Envoyer</button>
+    <p id="status" aria-live="polite"></p>
+  </form>
+
+  <script>
+    const f=document.getElementById('contact-form'), s=document.getElementById('status');
+    f.addEventListener('submit', e=>{
+      e.preventDefault();
+      const d=new FormData(f);
+      const nom=(d.get('nom')||'').toString().trim();
+      const email=(d.get('email')||'').toString().trim();
+      const msg=(d.get('message')||'').toString().trim();
+      const emailOk=/^\S+@\S+\.\S+$/.test(email);
+      if(!nom||!emailOk||msg.length<10){
+        s.textContent='Veuillez remplir correctement tous les champs (message ≥ 10 caractères).';
+        return;
+      }
+      s.textContent='Merci ! (démo, aucun envoi serveur).';
+      f.reset();
+    });
+  </script>
+</body>
+</html>
