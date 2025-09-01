@@ -1,14 +1,14 @@
-# On prend une image officielle Nginx (serveur web léger)
+# Je pars d’une image officielle Nginx (un serveur web léger et rapide)
 FROM nginx:alpine
 
-# On supprime les fichiers par défaut de Nginx
+# Je supprime les fichiers par défaut fournis avec Nginx pour repartir propre
 RUN rm -rf /usr/share/nginx/html/*
 
-# On copie le site (les fichiers HTML/CSS/JS) dans le dossier public de Nginx
+# Je copie mon site (HTML / CSS / JS) dans le dossier public de Nginx
 COPY . /usr/share/nginx/html
 
-# On indique que le serveur utilise le port 80
+# J’indique que mon serveur écoutera sur le port 80
 EXPOSE 80
 
-# On démarre Nginx
+# Je lance Nginx en mode "premier plan" pour que le conteneur reste actif
 CMD ["nginx", "-g", "daemon off;"]

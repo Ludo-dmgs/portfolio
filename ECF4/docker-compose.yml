@@ -1,8 +1,15 @@
+version: "3.8"
+
 services:
   web:
+    # Je construis mon image à partir du Dockerfile présent dans ce projet
     build:
       context: .
       dockerfile: Dockerfile
+    
+    # Je donne un nom à mon image locale (utile pour mes tests)
     image: ludo/local-portfolio:dev
+
+    # Je mappe le port 8080 de ma machine vers le port 80 du conteneur
     ports:
       - "8080:80"
