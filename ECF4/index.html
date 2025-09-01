@@ -3,132 +3,560 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Portfolio – Accueil</title>
-  <meta name="description" content="Portfolio minimal pour ECF4 : page d’accueil et page de contact, dockerisées.">
+  <title>Portfolio – Développeur Web et Web Mobile</title>
+  <meta name="description" content="Portfolio présentant mes compétences en développement web et web mobile acquises lors de ma formation DWWM.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#0b0c10; --muted:#1f2833; --text:#c5c6c7; --hi:#66fcf1; --hi2:#45a29e; --card:#111419;
-      --bg-light:#f7f8fa; --text-light:#222; --muted-light:#e9ecf1; --card-light:#fff;
-      --shadow:0 10px 24px rgba(0,0,0,.25);
-      --radius:16px;
+    :root {
+      /* Couleurs professionnelles */
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #64748b;
+      --accent: #0ea5e9;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      
+      /* Neutres */
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      
+      /* Mode sombre */
+      --bg: var(--gray-50);
+      --bg-card: #ffffff;
+      --text: var(--gray-900);
+      --text-secondary: var(--gray-600);
+      --border: var(--gray-200);
+      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      
+      --radius: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
     }
-    /* Thème clair  */
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg-light);color:var(--text-light);line-height:1.6}
-    .dark body{background:var(--bg);color:var(--text)}
-    .container{max-width:1100px;margin:0 auto;padding:24px}
-    header{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
-    nav a{margin:0 10px;text-decoration:none;color:inherit;opacity:.85}
-    nav a:hover{opacity:1}
-    .btn{display:inline-block;padding:10px 16px;border-radius:999px;border:1px solid transparent;cursor:pointer;text-decoration:none}
-    .btn-primary{background:var(--hi);color:#002b2a;border-color:transparent}
-    .btn-ghost{background:transparent;border-color:currentColor;opacity:.85}
-    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;margin-top:16px}
-    .card{background:var(--card-light);box-shadow:var(--shadow);border-radius:var(--radius);padding:24px}
-    .dark .card{background:var(--card)}
-    h1{font-size:clamp(28px,4vw,46px);line-height:1.2;margin:0 0 12px}
-    h2{font-size:clamp(22px,3vw,28px);margin:0 0 12px}
-    p.lead{font-size:18px;opacity:.85}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
-    .badge{display:inline-block;background:var(--muted-light);padding:6px 10px;border-radius:999px;font-size:12px}
-    .dark .badge{background:var(--muted)}
-    footer{margin:40px 0 12px;opacity:.75;font-size:14px;text-align:center}
-    .top{position:fixed;right:16px;bottom:16px}
-    .switch{margin-left:12px}
-    @media (max-width:900px){.hero{grid-template-columns:1fr}}
-    @media (max-width:700px){.grid{grid-template-columns:1fr}}
-    /* petites anims */
-    .fade-in{animation:fade .5s ease both} @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+    .dark {
+      --bg: var(--gray-900);
+      --bg-card: var(--gray-800);
+      --text: var(--gray-100);
+      --text-secondary: var(--gray-400);
+      --border: var(--gray-700);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .dark header {
+      background: rgba(30, 41, 59, 0.95);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a[aria-current="page"]::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 1px;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.5rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      background: var(--gray-100);
+      border-color: var(--gray-300);
+    }
+
+    .dark .theme-toggle:hover {
+      background: var(--gray-700);
+      border-color: var(--gray-600);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--gray-100);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--gray-200);
+      border-color: var(--gray-300);
+    }
+
+    .dark .btn-secondary {
+      background: var(--gray-700);
+      color: var(--text);
+      border-color: var(--gray-600);
+    }
+
+    .dark .btn-secondary:hover {
+      background: var(--gray-600);
+      border-color: var(--gray-500);
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .skill-tag {
+      background: var(--gray-100);
+      color: var(--gray-700);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .dark .skill-tag {
+      background: var(--gray-700);
+      color: var(--gray-300);
+    }
+
+    /* Sections */
+    .section {
+      padding: 4rem 0;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--text);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .social-links a:hover {
+      color: var(--primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 16px;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      nav {
+        gap: 1rem;
+      }
+      
+      .hero {
+        padding: 2rem 0;
+      }
+      
+      .section {
+        padding: 2rem 0;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in:nth-child(3) { animation-delay: 0.2s; }
   </style>
-  <script>
-    // Préférences thème
-    (function(){
-      const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const saved = localStorage.getItem('theme');
-      if ((saved === 'dark') || (!saved && preferDark)) document.documentElement.classList.add('dark');
-    })();
-    document.documentElement.classList.remove('no-js');
-  </script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <strong>Mon Portfolio</strong>
-      <nav>
-        <a href="index.html" aria-current="page">Accueil</a>
-        <a href="contact.html">Contact</a>
-        <button id="toggleTheme" class="btn btn-ghost switch" type="button" aria-label="Basculer thème">🌓</button>
-      </nav>
-    </header>
-
-    <section class="hero fade-in">
-      <div class="card">
-        <h1>Bienvenue 👋</h1>
-        <p class="lead">Projet **ECF4** : un portfolio minimal, une page contact, le tout <strong>dockerisé</strong> via Nginx.</p>
-        <div style="display:flex;gap:12px;margin-top:12px">
-          <a class="btn btn-primary" href="contact.html">Me contacter</a>
-          <a class="btn btn-ghost" href="#projets">Voir les “projets”</a>
-        </div>
-        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
-          <span class="badge">HTML</span>
-          <span class="badge">CSS</span>
-          <span class="badge">JS</span>
-          <span class="badge">Docker / Nginx</span>
-        </div>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">Portfolio DWWM</a>
+        <nav>
+          <a href="index.html" aria-current="page">Accueil</a>
+          <a href="contact.html">Contact</a>
+          <button class="theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+            <span id="themeIcon">🌙</span>
+          </button>
+        </nav>
       </div>
-      <div class="card">
-        <h2>À propos</h2>
-        <p>Site d’évaluation pour montrer : maîtrise de Git, ajout d’une fonctionnalité (page contact), dockerisation et documentation.</p>
-        <ul>
-          <li>Repo GitHub (branche <code>page-contact</code>)</li>
-          <li>Image Docker Hub (<code>latest</code>)</li>
-          <li>Docs dans <code>/ECF4</code></li>
-        </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1 class="fade-in">Développeur Web et Web Mobile</h1>
+        <p class="fade-in">Formation DWWM en cours - Spécialisé dans le développement web moderne avec HTML, CSS, JavaScript, PHP et les technologies associées.</p>
+        <div class="fade-in" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="contact.html" class="btn btn-primary">Me contacter</a>
+          <a href="#competences" class="btn btn-secondary">Voir mes compétences</a>
+        </div>
       </div>
     </section>
 
-    <section id="projets" class="grid fade-in" style="margin-top:28px">
-      <article class="card">
-        <h3>Projet A</h3>
-        <p>Exemple statique. Idéal pour montrer la mise en page et la structure.</p>
-      </article>
-      <article class="card">
-        <h3>Projet B</h3>
-        <p>Focus sur l’accessibilité, la lisibilité et une UX simple.</p>
-      </article>
-      <article class="card">
-        <h3>Projet C</h3>
-        <p>Déploiement simplifié via Docker : build → push → run.</p>
-      </article>
+    <!-- Compétences Section -->
+    <section id="competences" class="section">
+      <div class="container">
+        <h2 class="section-title">Compétences Techniques</h2>
+        <div class="grid grid-2">
+          <div class="card fade-in">
+            <h3>Frontend</h3>
+            <p>Développement d'interfaces utilisateur web et web mobile avec les technologies modernes.</p>
+            <div class="skills">
+              <span class="skill-tag">HTML5</span>
+              <span class="skill-tag">CSS3</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">Bootstrap</span>
+              <span class="skill-tag">Figma</span>
+            </div>
+          </div>
+          
+          <div class="card fade-in">
+            <h3>Backend</h3>
+            <p>Développement côté serveur avec PHP et gestion de bases de données.</p>
+            <div class="skills">
+              <span class="skill-tag">PHP</span>
+              <span class="skill-tag">MySQL</span>
+              <span class="skill-tag">MongoDB</span>
+              <span class="skill-tag">API REST</span>
+              <span class="skill-tag">Ajax</span>
+            </div>
+          </div>
+          
+          <div class="card fade-in">
+            <h3>Outils & Méthodes</h3>
+            <p>Gestion de projet, versioning et méthodologies de développement.</p>
+            <div class="skills">
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">DevOps</span>
+              <span class="skill-tag">UML</span>
+              <span class="skill-tag">Merise</span>
+            </div>
+          </div>
+          
+          <div class="card fade-in">
+            <h3>Frameworks & CMS</h3>
+            <p>Utilisation de frameworks et systèmes de gestion de contenu.</p>
+            <div class="skills">
+              <span class="skill-tag">WordPress</span>
+              <span class="skill-tag">Kotlin</span>
+              <span class="skill-tag">POO</span>
+              <span class="skill-tag">SEO</span>
+              <span class="skill-tag">Ergonomie Web</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <footer>© <span id="y"></span> – ECF4 • Fait avec ❤️, HTML/CSS/JS & Docker</footer>
-  </div>
+    <!-- Formation Section -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Formation DWWM</h2>
+        <div class="grid grid-3">
+          <div class="card fade-in">
+            <h3>Développement Web</h3>
+            <p>Maîtrise des technologies web fondamentales : HTML, CSS, JavaScript, PHP. Création d'interfaces utilisateur modernes et responsives.</p>
+          </div>
+          
+          <div class="card fade-in">
+            <h3>Bases de Données</h3>
+            <p>Conception et administration de bases de données relationnelles (MySQL) et NoSQL (MongoDB). Modélisation avec Merise et UML.</p>
+          </div>
+          
+          <div class="card fade-in">
+            <h3>Déploiement & DevOps</h3>
+            <p>Containerisation avec Docker, gestion de versions avec Git, et mise en place de pipelines DevOps pour le déploiement automatisé.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-  <button class="btn btn-primary top" id="toTop" type="button" aria-label="Revenir en haut">↑</button>
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div>
+          <p>&copy; <span id="currentYear"></span> Portfolio DWWM. Formation en cours.</p>
+        </div>
+        <div class="social-links">
+          <a href="#" aria-label="LinkedIn">LinkedIn</a>
+          <a href="#" aria-label="GitHub">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script>
-    // bouton top
-    const topBtn = document.getElementById('toTop');
-    topBtn.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+    // Gestion du thème
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const html = document.documentElement;
 
-    // année dynamique
-    document.getElementById('y').textContent = new Date().getFullYear();
+    // Vérifier la préférence sauvegardée
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      html.classList.add('dark');
+      themeIcon.textContent = '☀️';
+    }
 
-    // toggle thème
-    const tgl = document.getElementById('toggleTheme');
-    tgl.addEventListener('click', ()=>{
-      const root = document.documentElement;
-      const isDark = root.classList.toggle('dark');
+    themeToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      const isDark = html.classList.contains('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      themeIcon.textContent = isDark ? '☀️' : '🌙';
     });
 
-    // lien interne smooth
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click',(e)=>{
+    // Année courante
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Animation au scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = '0s';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Navigation smooth
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const id = a.getAttribute('href').slice(1);
-        const el = document.getElementById(id);
-        if(el) el.scrollIntoView({behavior:'smooth'});
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
       });
     });
   </script>
