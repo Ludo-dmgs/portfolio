@@ -1,50 +1,152 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="no-js">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio – Contact</title>
+  <meta name="description" content="Page de contact avec validation côté client pour l’ECF4.">
   <style>
-    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:1.6}
-    nav a{margin-right:1rem}
-    form{display:grid;gap:.8rem;margin-top:1rem}
-    input,textarea,button{padding:.6rem;border:1px solid #ccc;border-radius:8px}
-    button{cursor:pointer}
-    #status{margin-top:.5rem}
+    :root{
+      --bg:#0b0c10; --muted:#1f2833; --text:#c5c6c7; --hi:#66fcf1; --hi2:#45a29e; --card:#111419;
+      --bg-light:#f7f8fa; --text-light:#222; --muted-light:#e9ecf1; --card-light:#fff;
+      --shadow:0 10px 24px rgba(0,0,0,.25);
+      --radius:16px;
+      --error:#c62828; --ok:#2e7d32;
+    }
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg-light);color:var(--text-light);line-height:1.6}
+    .dark body{background:var(--bg);color:var(--text)}
+    .container{max-width:760px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+    nav a{margin:0 10px;text-decoration:none;color:inherit;opacity:.85}
+    nav a:hover{opacity:1}
+    .card{background:var(--card-light);box-shadow:var(--shadow);border-radius:var(--radius);padding:24px}
+    .dark .card{background:var(--card)}
+    h1{margin:8px 0 4px}
+    .grid{display:grid;gap:12px}
+    label{font-weight:600}
+    input,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #d1d5db;background:#fff}
+    .dark input,.dark textarea{background:#0d1117;border-color:#2a2f36;color:var(--text)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .btn{display:inline-block;padding:12px 18px;border-radius:12px;border:1px solid transparent;cursor:pointer}
+    .btn-primary{background:var(--hi);color:#002b2a}
+    .note{font-size:13px;opacity:.8}
+    .msg{margin-top:10px;font-weight:600}
+    .msg.error{color:var(--error)}
+    .msg.ok{color:var(--ok)}
   </style>
+  <script>
+    (function(){
+      const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const saved = localStorage.getItem('theme');
+      if ((saved === 'dark') || (!saved && preferDark)) document.documentElement.classList.add('dark');
+    })();
+    document.documentElement.classList.remove('no-js');
+  </script>
 </head>
 <body>
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="contact.html">Contact</a>
-  </nav>
+  <div class="container">
+    <header>
+      <strong>Mon Portfolio</strong>
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+        <button id="toggleTheme" class="btn" type="button" aria-label="Basculer thème">🌓</button>
+      </nav>
+    </header>
 
-  <h1>Contact</h1>
-  <p>Formulaire de démonstration pour l’ECF.</p>
+    <main class="card" aria-labelledby="title">
+      <h1 id="title">Me contacter</h1>
+      <p class="note">Formulaire de démonstration (côté client). Les données sont validées et stockées localement.</p>
 
-  <form id="contact-form" novalidate>
-    <label>Nom<br><input type="text" name="nom" required></label>
-    <label>Email<br><input type="email" name="email" required></label>
-    <label>Message<br><textarea name="message" rows="6" required minlength="10"></textarea></label>
-    <button type="submit">Envoyer</button>
-    <p id="status" aria-live="polite"></p>
-  </form>
+      <form id="form" class="grid" novalidate>
+        <div class="row">
+          <div>
+            <label for="name">Nom</label>
+            <input id="name" name="name" autocomplete="name" placeholder="Votre nom" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="vous@email.com" required>
+          </div>
+        </div>
+        <div>
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="6" placeholder="Votre message (min. 10 caractères)" required minlength="10"></textarea>
+        </div>
+        <div>
+          <button class="btn btn-primary" type="submit">Envoyer</button>
+          <span role="status" id="status" class="msg" aria-live="polite"></span>
+        </div>
+      </form>
+    </main>
+
+    <section class="card" style="margin-top:16px">
+      <h2>Historique (stocké localement)</h2>
+      <ul id="history" class="grid" style="list-style:none;padding:0;margin:0;gap:8px"></ul>
+    </section>
+  </div>
 
   <script>
-    const f=document.getElementById('contact-form'), s=document.getElementById('status');
-    f.addEventListener('submit', e=>{
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const statusEl = $('#status');
+    const form = $('#form');
+    const historyEl = $('#history');
+
+    // thème
+    $('#toggleTheme').addEventListener('click', ()=>{
+      const root = document.documentElement;
+      const isDark = root.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // validation + "enregistrement" local
+    function validate(data){
+      const errors = [];
+      if (!data.name || data.name.trim().length < 2) errors.push('Nom trop court.');
+      if (!/^\S+@\S+\.\S+$/.test(data.email||'')) errors.push('Email invalide.');
+      if (!data.message || data.message.trim().length < 10) errors.push('Message trop court (≥ 10 car.).');
+      return errors;
+    }
+
+    function loadHistory(){
+      const rows = JSON.parse(localStorage.getItem('contact_history')||'[]');
+      historyEl.innerHTML = rows.map(r=>(
+        `<li class="card">
+          <strong>${r.name}</strong> — <span style="opacity:.8">${r.email}</span><br>
+          <small style="opacity:.7">${new Date(r.ts).toLocaleString()}</small>
+          <p style="margin:.4rem 0 0">${r.message.replace(/</g,'&lt;')}</p>
+        </li>`
+      )).join('') || `<li class="note">Aucun message pour le moment.</li>`;
+    }
+    loadHistory();
+
+    form.addEventListener('submit', (e)=>{
       e.preventDefault();
-      const d=new FormData(f);
-      const nom=(d.get('nom')||'').toString().trim();
-      const email=(d.get('email')||'').toString().trim();
-      const msg=(d.get('message')||'').toString().trim();
-      const emailOk=/^\S+@\S+\.\S+$/.test(email);
-      if(!nom||!emailOk||msg.length<10){
-        s.textContent='Veuillez remplir correctement tous les champs (message ≥ 10 caractères).';
+      statusEl.textContent=''; statusEl.className='msg';
+
+      const data = {
+        name: $('#name').value.trim(),
+        email: $('#email').value.trim(),
+        message: $('#message').value.trim(),
+      };
+      const errs = validate(data);
+      if (errs.length){
+        statusEl.textContent = errs.join(' ');
+        statusEl.classList.add('error');
         return;
       }
-      s.textContent='Merci ! (démo, aucun envoi serveur).';
-      f.reset();
+
+      // Simulation enregistrement : localStorage (pour la démo)
+      const rows = JSON.parse(localStorage.getItem('contact_history')||'[]');
+      rows.unshift({...data, ts: Date.now()});
+      localStorage.setItem('contact_history', JSON.stringify(rows));
+      loadHistory();
+
+      statusEl.textContent = 'Merci ! Votre message a été enregistré (démonstration).';
+      statusEl.classList.add('ok');
+      form.reset();
+      $('#name').focus();
     });
   </script>
 </body>
